@@ -18,7 +18,7 @@ namespace LibrarySystem.Controllers
                 return View(model);
             }
 
-            return RedirectToAction("Login", "Auth");
+            return RedirectToAction("RegisterPending", "Auth");
         }
 
         [HttpGet]
@@ -36,7 +36,13 @@ namespace LibrarySystem.Controllers
             }
 
             return RedirectToAction("Index", "Home");
-        } 
+        }
+
+        [HttpGet]
+        public IActionResult RegisterPending()
+        {
+            return View();
+        }
 
     }
 } 
