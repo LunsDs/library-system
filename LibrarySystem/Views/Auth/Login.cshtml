@@ -1,8 +1,9 @@
-﻿@model LibrarySystem.Models.ViewModels.LoginViewModel
+﻿@model LibrarySystem.Models.ViewModels.AuthViewModels.LoginViewModel
 
 @{
     ViewData["Title"] = "Logowanie";
 }
+
 <div class="row justify-content-center mt-5">
 
     <h2 class="mb-3">Logowanie</h2>
@@ -31,7 +32,9 @@
             <span class="text-muted">Nie masz jeszcze konta?</span>
             <a asp-controller="Auth" asp-action="Register" class="text-decoration-none ms-1">Zarejestruj się</a>
         </div>
-
+        <div class="text-center">
+            <a asp-controller="Auth" asp-action="ForgotPassword" class="text-decoration-none ms-1">Nie pamietam hasła</a>
+        </div>
     </form>
 
 
