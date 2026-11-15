@@ -1,10 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using LibrarySystem.Models.ViewModels;
+using LibrarySystem.Models.ViewModels.AuthViewModels;
 
 namespace LibrarySystem.Controllers
 {
     public class AuthController : Controller
     {
+        //Register
         [HttpGet]
         public IActionResult Register()
         {
@@ -21,6 +22,7 @@ namespace LibrarySystem.Controllers
             return RedirectToAction("RegisterPending", "Auth");
         }
 
+        //Login
         [HttpGet]
         public IActionResult Login()
         {
@@ -37,12 +39,49 @@ namespace LibrarySystem.Controllers
 
             return RedirectToAction("Index", "Home");
         }
-
+        
+        //RegisterPending
         [HttpGet]
         public IActionResult RegisterPending()
         {
             return View();
         }
+
+
+        //ResetPassword
+        [HttpGet]
+        public IActionResult ResetPassword() {
+            return View();
+        }
+        [HttpPost]
+        public IActionResult ResetPassword(ResetPasswordViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+
+            return RedirectToAction("Login", "Auth");
+        }
+
+        //ForgotPassword
+        [HttpGet]
+        public IActionResult ForgotPassword()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult ForgotPassword(ForgotPasswordViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+
+            return RedirectToAction("ResetPassword", "Auth");
+        }
+
 
     }
 } 
