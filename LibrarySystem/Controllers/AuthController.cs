@@ -50,7 +50,8 @@ namespace LibrarySystem.Controllers
 
         //ResetPassword
         [HttpGet]
-        public IActionResult ResetPassword() {
+        public IActionResult ResetPassword() 
+        {
             return View();
         }
         [HttpPost]

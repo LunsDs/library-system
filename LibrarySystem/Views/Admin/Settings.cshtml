@@ -1,0 +1,47 @@
+﻿@model LibrarySettingsViewModel
+
+@{
+    ViewData["Title"] = "Ustawienia biblioteki";
+}
+
+<div class="row justify-content-center mt-5">
+    <div class="col-md-6">
+        <h2 class="mb-3">Ustawienia biblioteki</h2>
+
+        @if (ViewBag.SuccessMessage != null)
+        {
+            <div class="alert alert-success">
+                @ViewBag.SuccessMessage
+            </div>
+        }
+
+        <form asp-controller="Admin" asp-action="Settings" method="post">
+
+            <div class="mb-3">
+                <label asp-for="ReservationPickupDays" class="form-label"></label>
+                <input asp-for="ReservationPickupDays" class="form-control" type="number" />
+                <span asp-validation-for="ReservationPickupDays" class="text-danger small"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="LoanDurationDays" class="form-label"></label>
+                <input asp-for="LoanDurationDays" class="form-control" type="number" />
+                <span asp-validation-for="LoanDurationDays" class="text-danger small"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="DailyPenaltyRate" class="form-label"></label>
+                <input asp-for="DailyPenaltyRate" class="form-control" type="number" step="0.01" />
+                <span asp-validation-for="DailyPenaltyRate" class="text-danger small"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="MaxSimultaneousLoans" class="form-label"></label>
+                <input asp-for="MaxSimultaneousLoans" class="form-control" type="number" />
+                <span asp-validation-for="MaxSimultaneousLoans" class="text-danger small"></span>
+            </div>
+
+            <button type="submit" class="btn btn-primary w-100 mb-3">Zapisz ustawienia</button>
+        </form>
+    </div>
+</div>
