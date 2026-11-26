@@ -1,0 +1,68 @@
+﻿@model List<UserListViewModel>
+
+@{
+    ViewData["Title"] = "Zarządzanie użytkownikami";
+}
+
+<div class="mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h2>Zarządzanie użytkownikami</h2>
+        <span class="text-muted">Liczba użytkowników: @Model.Count</span>
+    </div>
+
+    <table class="table table-hover align-middle">
+        <thead class="table-light">
+            <tr>
+                <th>Użytkownik</th>
+                <th>E-mail</th>
+                <th>Rola</th>
+                <th>Status</th>
+                <th class="text-end">Akcje</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            @foreach (var user in Model)
+            {
+                <tr>
+                    <td class="fw-bold">@user.UserName</td>
+                    <td>@user.Email</td>
+                    <td>
+                        <span class="badge bg-secondary">@user.Role</span>
+                    </td>
+                    <td>
+                        @if (!user.IsApproved)
+                        {
+                            <span class="badge bg-warning text-dark">Oczekuje na aktywację</span>
+                        }
+                        else if (user.IsBlocked)
+                        {
+                            <span class="badge bg-danger">Zablokowany</span>
+                        }
+                        else
+                        {
+                            <span class="badge bg-success">Aktywny</span>
+                        }
+                    </td>
+                    <td class="text-end">
+                        @if (!user.IsApproved)
+                        {
+                            <button type="button" class="btn btn-sm btn-outline-success me-1">Zatwierdź</button>
+                        }
+
+                        @if (user.IsBlocked)
+                        {
+                            <button type="button" class="btn btn-sm btn-outline-success me-1">Odblokuj</button>
+                        }
+                        else
+                        {
+                            <button type="button" class="btn btn-sm btn-outline-danger me-1">Zablokuj</button>
+                        }
+
+                        <button type="button" class="btn btn-sm btn-outline-primary">Edytuj rolę</button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
