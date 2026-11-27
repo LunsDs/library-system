@@ -47,19 +47,23 @@
                     <td class="text-end">
                         @if (!user.IsApproved)
                         {
-                            <button type="button" class="btn btn-sm btn-outline-success me-1">Zatwierdź</button>
+                            <form asp-action="ApproveUser" asp-route-id="@user.Id" method="post" class="d-inline">
+                                <button type="button" class="btn btn-sm btn-outline-success me-1">Zatwierdź</button>
+                            </form>
                         }
 
                         @if (user.IsBlocked)
                         {
-                            <button type="button" class="btn btn-sm btn-outline-success me-1">Odblokuj</button>
+                            <form asp-action="UnblockUser" asp-route-id="@user.Id" method="post" class="d-inline">
+                                <button type="button" class="btn btn-sm btn-outline-success me-1">Odblokuj</button>
+                            </form>
                         }
                         else
                         {
-                            <button type="button" class="btn btn-sm btn-outline-danger me-1">Zablokuj</button>
+                            <a asp-action="BlockUser" asp-route-id="@user.Id" class="btn btn-sm btn-outline-danger me-1">Zablokuj</a>
                         }
 
-                        <button type="button" class="btn btn-sm btn-outline-primary">Edytuj rolę</button>
+                        <a asp-action="EditUser" asp-route-id="@user.Id" class="btn btn-sm btn-outline-primary">Edytuj</a>
                     </td>
                 </tr>
             }
