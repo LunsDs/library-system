@@ -1,52 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using LibrarySystem.Models.ViewModels.AdminViewModel;
-using LibrarySystem.Models.Enums;
+using LibrarySystem.Data;
 
 namespace LibrarySystem.Controllers;
 
 public class AdminController : Controller
 {
-    private static List<UserListViewModel> users = new List<UserListViewModel>()
-    {
-        new UserListViewModel
-        {
-            Id = 1,
-            UserName = "JanKowalski",
-            Email = "jan.kowalski@pwr.edu.pl",
-            Role = UserRole.Reader,
-            IsBlocked = false,
-            IsApproved = true
-        },
-        new UserListViewModel
-        {
-            Id = 2,
-            UserName = "AnnaNowak",
-            Email = "anna.nowak@biblioteka.pl",
-            Role = UserRole.Librarian,
-            IsBlocked = false,
-            IsApproved = true
-        },
-        new UserListViewModel
-        {
-            Id = 3,
-            UserName = "PiotrW",
-            Email = "piotr.w@gmail.com",
-            Role = UserRole.Reader,
-            IsBlocked = true, 
-            IsApproved = true
-        },
-        new UserListViewModel
-        {
-            Id = 4,
-            UserName = "MarekNowy",
-            Email = "marek.nowy@student.pwr.edu.pl",
-            Role = UserRole.Reader,
-            IsBlocked = false,
-            IsApproved = false 
-        }
-    };
-
-
     //Admin Settings
     [HttpGet]
     public IActionResult Settings()
@@ -72,21 +31,49 @@ public class AdminController : Controller
     [HttpGet]
     public IActionResult Users()
     {
-        return View(users);
+        // var model = new List<UserListViewModel>();
+        //
+        // foreach (var u in InMemoryUserList.Users)
+        // {
+        //    var vm = new UserListViewModel
+        //    {
+        //        Id = u.Id,
+        //        Username = u.Username,
+        //        Email = u.Email,
+        //        Role = u.Role,
+        //        IsBlocked = u.IsBlocked,
+        //        IsApproved = u.IsApproved
+        //    };
+        //
+        //    model.Add(vm);
+        // }
+
+        var model = InMemoryUserList.Users.Select(u => new UserListViewModel
+        {
+            Id = u.Id,
+            Username = u.Username,
+            Email = u.Email,
+            Role = u.Role,
+            IsBlocked = u.IsBlocked,
+            IsApproved = u.IsApproved
+
+        }).ToList();
+
+        return View(model);
     }
 
     //User Menagment - activate user button
     [HttpPost]
     public IActionResult ApproveUser(int id)
     {
-        var user = users.FirstOrDefault(u => u.Id == id);
+        var user = InMemoryUserList.Users.FirstOrDefault(u => u.Id == id);
         if (user == null)
         {
             return NotFound();
         }
 
         user.IsApproved = true;
-        TempData["SuccessMessage"] = $"Konto użytkownika {user.UserName} zostało zatwierdzone!";
+        TempData["SuccessMessage"] = $"Konto użytkownika {user.Username} zostało zatwierdzone!";
         return RedirectToAction("Users"); 
     }
 
@@ -94,14 +81,14 @@ public class AdminController : Controller
     [HttpPost]
     public IActionResult UnblockUser(int id)
     {
-        var user = users.FirstOrDefault(u => u.Id == id);
+        var user = InMemoryUserList.Users.FirstOrDefault(u => u.Id == id);
         if (user == null)
         {
             return NotFound();
         }
 
         user.IsApproved = false;
-        TempData["SuccessMessage"] = $"Konto użytkownika {user.UserName} zostało odblokowane!";
+        TempData["SuccessMessage"] = $"Konto użytkownika {user.Username} zostało odblokowane!";
         return RedirectToAction("Users");
 
     }
@@ -110,7 +97,7 @@ public class AdminController : Controller
     [HttpGet]
     public IActionResult BlockUser(int id)
     {
-        var user = users.FirstOrDefault(u => u.Id == id);
+        var user = InMemoryUserList.Users.FirstOrDefault(u => u.Id == id);
         if (user == null)
         {
             return NotFound();
@@ -118,7 +105,7 @@ public class AdminController : Controller
 
         var model = new BlockUserViewModel 
         { 
-            UserName = user.UserName,
+            Username = user.Username,
             Email = user.Email
        
         };
@@ -129,7 +116,7 @@ public class AdminController : Controller
     [HttpPost]
     public IActionResult BlockUser(int id, BlockUserViewModel model)
     {
-        var user = users.FirstOrDefault(u => u.Id == id);
+        var user = InMemoryUserList.Users.FirstOrDefault(u => u.Id == id);
 
         if (user == null)
         {
@@ -138,7 +125,7 @@ public class AdminController : Controller
 
         if (!ModelState.IsValid)
         {
-            model.UserName = user.UserName;
+            model.Username = user.Username;
             model.Email = user.Email;
 
             return View(model);
@@ -147,7 +134,7 @@ public class AdminController : Controller
         // dodać w przyszłości aktualizacje danych  reason i daytime
         user.IsBlocked = true;
 
-        TempData["SuccessMessage"] = $"Zablokowano konto użytkownika {model.UserName}. Powód: {model.Reason}";
+        TempData["SuccessMessage"] = $"Zablokowano konto użytkownika {model.Username}. Powód: {model.Reason}";
         return RedirectToAction("Users");
     }
 
@@ -155,7 +142,7 @@ public class AdminController : Controller
     [HttpGet]
     public IActionResult EditUser(int id)
     {
-        var user = users.FirstOrDefault(u => u.Id == id);
+        var user = InMemoryUserList.Users.FirstOrDefault(u => u.Id == id);
 
         if (user == null)
         {
@@ -164,7 +151,7 @@ public class AdminController : Controller
 
         var model = new EditUserViewModel
         {
-            UserName = user.UserName,
+            Username = user.Username,
             Email = user.Email,
             Role = user.Role,
             IsBlocked = user.IsBlocked,
@@ -183,19 +170,19 @@ public class AdminController : Controller
             return View(model);
         }
 
-        var user = users.FirstOrDefault(u => u.Id == id);
+        var user = InMemoryUserList.Users.FirstOrDefault(u => u.Id == id);
         if (user == null)
         {
             return NotFound();
         }
 
         
-        user.UserName = model.UserName;
+        user.Username = model.Username;
         user.Email = model.Email;
         user.Role = model.Role;
         user.IsApproved = model.IsApproved;
 
-        TempData["SuccessMessage"] = $"Zaktualizowano dane użytkownika {user.UserName}";
+        TempData["SuccessMessage"] = $"Zaktualizowano dane użytkownika {user.Username}";
         return RedirectToAction("Users");
         
     }
