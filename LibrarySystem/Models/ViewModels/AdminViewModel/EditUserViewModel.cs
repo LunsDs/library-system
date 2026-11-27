@@ -8,7 +8,7 @@ public class EditUserViewModel
 
     [Required(ErrorMessage = "Wpisz nazwe użytkownika")]
     [Display(Name = "Nazwa użytkownika")]
-    public string UserName { get; set; } = string.Empty;
+    public string Username { get; set; } = string.Empty;
 
     [Required(ErrorMessage = "Wpisz E-mail")]
     [Display(Name = "Adres e-mail")]

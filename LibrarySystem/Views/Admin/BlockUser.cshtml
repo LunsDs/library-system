@@ -1,4 +1,4 @@
-﻿@model LibrarySystem.Models.ViewModels.AdminViewModel.BlockUserViewModel
+﻿@model BlockUserViewModel
 
 @{
     ViewData["Title"] = "Blokowanie użytkownika";
@@ -10,7 +10,7 @@
             <h2 class="text-danger mb-3">Blokowanie użytkownika</h2>
 
             <div class="alert alert-warning mb-3">
-                Blokujesz konto: <strong>@Model.UserName</strong> (@Model.Email).<br />
+                Blokujesz konto: <strong>@Model.Username</strong> (@Model.Email).<br />
                 Użytkownik nie będzie mógł się logować ani wypożyczać książek.
             </div>
 

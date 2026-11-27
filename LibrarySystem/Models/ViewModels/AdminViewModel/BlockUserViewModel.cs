@@ -3,7 +3,7 @@ namespace LibrarySystem.Models.ViewModels.AdminViewModel;
 
 public class BlockUserViewModel
 {
-    public string UserName { get; set; } = string.Empty;
+    public string Username { get; set; } = string.Empty;
     public string Email { get; set; } = string.Empty;
 
     [Required(ErrorMessage = "Podaj powód blokady konta")]
