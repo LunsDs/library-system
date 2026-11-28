@@ -1,7 +1,22 @@
+using Microsoft.AspNetCore.Authentication.Cookies;
+
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+// Dodanie obsługi uwierzytelniania ciasteczkami (szyfrowanie danych i odpornośc ciasteczka na skrypty JavaScript) można to porwónać do JWT + httponlycookie z expressu.
+builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+    .AddCookie(options =>
+    {
+        options.LoginPath = "/Auth/Login";
+        options.LogoutPath = "/Auth/Logout";
+        options.AccessDeniedPath = "/Home/AccessDenied";
+        options.ExpireTimeSpan = TimeSpan.FromMinutes(60);
+
+    });
+
 
 var app = builder.Build();
 
@@ -16,7 +31,8 @@ if (!app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 app.UseRouting();
 
-app.UseAuthorization();
+app.UseAuthentication(); // Middleware - Kim jest użytkownik
+app.UseAuthorization(); // Middleware - Do czego ma uprawnienia użytkownik
 
 app.MapStaticAssets();
 

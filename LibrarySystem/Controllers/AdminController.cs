@@ -73,6 +73,7 @@ public class AdminController : Controller
         }
 
         user.IsApproved = true;
+
         TempData["SuccessMessage"] = $"Konto użytkownika {user.Username} zostało zatwierdzone!";
         return RedirectToAction("Users"); 
     }
@@ -87,7 +88,7 @@ public class AdminController : Controller
             return NotFound();
         }
 
-        user.IsApproved = false;
+        user.IsBlocked = false;
         TempData["SuccessMessage"] = $"Konto użytkownika {user.Username} zostało odblokowane!";
         return RedirectToAction("Users");
 
