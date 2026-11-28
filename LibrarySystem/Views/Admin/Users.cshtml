@@ -48,14 +48,14 @@
                         @if (!user.IsApproved)
                         {
                             <form asp-action="ApproveUser" asp-route-id="@user.Id" method="post" class="d-inline">
-                                <button type="button" class="btn btn-sm btn-outline-success me-1">Zatwierdź</button>
+                                <button type="submit" class="btn btn-sm btn-outline-success me-1">Zatwierdź</button>
                             </form>
                         }
 
                         @if (user.IsBlocked)
                         {
                             <form asp-action="UnblockUser" asp-route-id="@user.Id" method="post" class="d-inline">
-                                <button type="button" class="btn btn-sm btn-outline-success me-1">Odblokuj</button>
+                                <button type="submit" class="btn btn-sm btn-outline-success me-1">Odblokuj</button>
                             </form>
                         }
                         else
