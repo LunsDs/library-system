@@ -27,6 +27,7 @@ namespace LibrarySystem.Controllers
                 return View(model);
             }
 
+
             return RedirectToAction("RegisterPending", "Auth");
         }
 
@@ -98,7 +99,14 @@ namespace LibrarySystem.Controllers
 
             return RedirectToAction("Index", "Home");
         }
-        
+        //Logout
+        [HttpPost]
+        public async Task<IActionResult> Logout()
+        {
+            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+            return RedirectToAction("Index", "Home");
+        }
+
         //RegisterPending
         [HttpGet]
         public IActionResult RegisterPending()
